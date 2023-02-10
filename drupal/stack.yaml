@@ -1,0 +1,31 @@
+version: '3.3'
+services:
+  drupal-ecommerce:
+    image: drupal:8-apache
+    ports:
+     - 8080:80
+    volumes:
+     - drupal:/var/www/html/modules
+     - drupal:/var/www/html/profiles
+     - drupal:/var/www/html/themes
+     - drupal:/var/www/html/sites
+    networks:
+     - default
+    configs:
+     -
+      source: settings.php
+      target: /var/www/html/sites/default/settings.php
+     -
+      source: settings.php
+      target: /var/www/html/sites/default.settings.php
+    logging:
+      driver: json-file
+networks:
+  default:
+    driver: overlay
+volumes:
+  drupal:
+    external: true
+configs:
+  settings.php:
+    external: true
